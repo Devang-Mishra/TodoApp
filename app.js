@@ -54,7 +54,7 @@ app.get("/", function (req, res) {
       } else {
         // console.log(items);
         res.render("list", {
-          ListTitle: day,
+          ListTitle: "Today",
           ListItems: items,
         });
       }
@@ -71,14 +71,22 @@ app.post("/", function (req, res) {
   const newItem = new Item({ name: itemName });
   if (itemName && itemName.length <= 30) {
     if (listName === day) {
-      newItem.save();
-      res.redirect("/");
+      newItem.save().then(function(){
+          res.redirect("/");
+      })
+      
+      
+      
     } else {
       List.findOne({ name: listName })
         .then(function (list) {
           list.listItems.push(newItem);
-          list.save();
-          res.redirect("/" + listName);
+          list.save().then(function(){
+             res.redirect("/" + listName);
+          })
+            
+          
+         
         })
         .catch(function (err) {
           console.log(err);
