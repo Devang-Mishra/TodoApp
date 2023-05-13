@@ -70,7 +70,7 @@ app.post("/", function (req, res) {
   var listName = req.body.button;
   const newItem = new Item({ name: itemName });
   if (itemName && itemName.length <= 30) {
-    if (listName === day) {
+    if (listName === "Today") {
       newItem.save().then(function(){
           res.redirect("/");
       })
